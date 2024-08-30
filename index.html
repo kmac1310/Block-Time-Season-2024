@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Season 2024 Countdown</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00533f 0%, #008000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        #countdown-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .countdown-item {
+            margin: 1rem 0;
+        }
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        #year-countdown {
+            animation: glow-vibrate 2s ease-in-out infinite;
+        }
+        @keyframes glow-vibrate {
+            0%, 100% {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700, 0 0 50px #FFD700, 0 0 75px #FFD700;
+            }
+            50% {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFD700, 0 0 70px #FFD700, 0 0 80px #FFD700, 0 0 100px #FFD700, 0 0 150px #FFD700;
+                transform: translateX(1px);
+            }
+        }
+        .countdown-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+        #tax-season-label {
+            color: #FFD700;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown-container">
+        <div id="tax-season-label">H&R BLOCK 2024</div>
+        <div class="countdown-item">
+            <div id="year-countdown" class="countdown-value"></div>
+            <div class="countdown-label">Tax Harvest ends April 15th</div>
+        </div>
+        <div class="countdown-item">
+            <div id="day-countdown" class="countdown-value"></div>
+            <div class="countdown-label">Block Time</div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+            const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+            
+            const minutesLeftInYear = Math.floor((endOfYear - now) / (1000 * 60));
+            const minutesLeftInDay = Math.floor((endOfDay - now) / (1000 * 60));
+            
+            document.getElementById('year-countdown').textContent = minutesLeftInYear.toLocaleString();
+            document.getElementById('day-countdown').textContent = minutesLeftInDay.toLocaleString();
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax Season 2024 Countdown</title>
+    <title>H&R BLOCK 2025 Countdown</title>
     <style>
         body, html {
             height: 100%;
@@ -23,6 +23,8 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 90%;
+            width: 400px;
         }
         .countdown-item {
             margin: 1rem 0;
@@ -30,60 +32,76 @@
         .countdown-value {
             font-size: 3rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #ffffff;
         }
-        #year-countdown {
-            animation: glow-vibrate 2s ease-in-out infinite;
-        }
-        @keyframes glow-vibrate {
-            0%, 100% {
-                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFD700, 0 0 35px #FFD700, 0 0 40px #FFD700, 0 0 50px #FFD700, 0 0 75px #FFD700;
-            }
-            50% {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFD700, 0 0 70px #FFD700, 0 0 80px #FFD700, 0 0 100px #FFD700, 0 0 150px #FFD700;
-                transform: translateX(1px);
-            }
+        #day-countdown {
+            color: #f0f0f0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         .countdown-label {
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 0.5rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         #tax-season-label {
             color: #FFD700;
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .season-dates {
+            color: #FFD700;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div id="countdown-container">
-        <div id="tax-season-label">H&R BLOCK 2024</div>
+        <div id="tax-season-label">H&R BLOCK 2025</div>
+        <div class="season-dates">January 17 - April 15</div>
         <div class="countdown-item">
-            <div id="year-countdown" class="countdown-value"></div>
-            <div class="countdown-label">Tax Harvest ends April 15th</div>
+            <div id="tax-deadline" class="countdown-value"></div>
+            <div class="countdown-label">Minutes Until Deadline</div>
         </div>
         <div class="countdown-item">
             <div id="day-countdown" class="countdown-value"></div>
-            <div class="countdown-label">Block Time</div>
+            <div class="countdown-label">Block Time Today</div>
         </div>
     </div>
-
     <script>
         function updateCountdown() {
             const now = new Date();
-            const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59);
+            const taxDeadline = new Date(2025, 3, 15, 23, 59, 59); // April 15th, 2025
+            const seasonStart = new Date(2025, 0, 17); // January 17th, 2025
             const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
             
-            const minutesLeftInYear = Math.floor((endOfYear - now) / (1000 * 60));
+            // Calculate minutes until deadline or until season starts
+            let targetDate = now < seasonStart ? seasonStart : taxDeadline;
+            const minutesUntilTarget = Math.max(0, Math.floor((targetDate - now) / (1000 * 60)));
             const minutesLeftInDay = Math.floor((endOfDay - now) / (1000 * 60));
             
-            document.getElementById('year-countdown').textContent = minutesLeftInYear.toLocaleString();
+            // Update the display
+            document.getElementById('tax-deadline').textContent = minutesUntilTarget.toLocaleString();
             document.getElementById('day-countdown').textContent = minutesLeftInDay.toLocaleString();
+            
+            // Update labels based on whether we're counting to season start or deadline
+            const deadlineLabel = document.getElementById('tax-deadline').nextElementSibling;
+            if (now < seasonStart) {
+                deadlineLabel.textContent = "Minutes Until Season Starts";
+            } else if (now > taxDeadline) {
+                deadlineLabel.textContent = "Tax Season Ended";
+            } else {
+                deadlineLabel.textContent = "Minutes Until Deadline";
+            }
         }
-
+        
         updateCountdown();
         setInterval(updateCountdown, 60000); // Update every minute
     </script>
